@@ -1,0 +1,17 @@
+{
+  "name": "connect-session-sequelize",
+  "version": "0.0.1",
+  "description": "Session store for connect-session using sequelize",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "keywords": [
+    "connect-session",
+    "connect",
+    "postgres"
+  ],
+  "author": "Michael Weibel <michael.weibel@gmail.com>",
+  "license": "MIT"
+}
