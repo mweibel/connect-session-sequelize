@@ -1,8 +1,6 @@
 # Connect Session Store using Sequelize
 [![Build Status](https://travis-ci.org/mweibel/connect-session-sequelize.png)](https://travis-ci.org/mweibel/connect-session-sequelize)
 
-**Warning:** This store does currently not work correctly.
-
 connect-session-sequelize is a SQL session store using [Sequelize.js](http://sequelizejs.com).
 
 # Installation
