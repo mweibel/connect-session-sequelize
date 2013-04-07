@@ -2,9 +2,15 @@
   "name": "connect-session-sequelize"
   , "version": "0.0.1"
   , "description": "Session store for connect-session using sequelize"
+  , "homepage": "https://github.com/mweibel/connect-session-sequelize"
+  , "bugs": "https://github.com/mweibel/connect-session-sequelize/issues"
   , "main": "index.js"
   , "scripts": {
     "test": "mocha ./test.js"
+  }
+  , "repository": {
+	"type": "git"
+	, "url": "https://github.com/mweibel/connect-session-sequelize.git"
   }
   , "dependencies": {
     "debug": "~0.7.2"
@@ -31,6 +37,6 @@
     "mysql",
     "sqlite"
   ]
-  , "author": "Michael Weibel <michael.weibel@gmail.com>"
+  , "author": "Michael Weibel <michael.weibel@gmail.com> (https://github.com/mweibel)"
   , "license": "MIT"
 }
