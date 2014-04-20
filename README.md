@@ -17,8 +17,8 @@ $ npm install connect-session-sequelize
 
 ```javascript
 var connect = require('connect')
-	// for express, just call it with 'express'
-	, SequelizeStore = require('connect-session-sequelize')(connect);
+	// for express, just call it with 'require('express-session').Store'
+	, SequelizeStore = require('connect-session-sequelize')(connect.session.Store);
 
 connect().use(connect.session({
 	store: new SequelizeStore(options)
