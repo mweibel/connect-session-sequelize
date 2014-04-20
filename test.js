@@ -1,7 +1,7 @@
 
 var assert = require('assert')
 	, connect = require('connect')
-	, SequelizeStore = require('./lib/connect-session-sequelize')(connect)
+	, SequelizeStore = require('./lib/connect-session-sequelize')(connect.session.Store)
 	, Sequelize = require('sequelize');
 
 var db = new Sequelize('session_test', 'test', '12345', {

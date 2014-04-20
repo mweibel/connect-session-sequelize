@@ -22,7 +22,6 @@
     , "sequelize": ">= 1.6.0"
   }
   , "peerDependencies": {
-    "connect": "*",
     "sequelize": ">= 1.6.0"
   }
   , "engines": {
