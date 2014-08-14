@@ -64,6 +64,8 @@ app.use(session({
 // continue as normal
 ```
 
+`SequelizeStore.sync()` - will run a sequelize `sync()` operation on the model for an initialized SequelizeStore object. Use this if you would like the the db table to be created for you.
+
 
 # License
 
