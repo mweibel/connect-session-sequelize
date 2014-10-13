@@ -22,7 +22,7 @@
     , "sequelize": ">= 2.0.0-dev12"
   }
   , "peerDependencies": {
-    "sequelize": ">= 1.6.0"
+    "sequelize": ">= 2.0.0-dev12"
   }
   , "engines": {
     "node": "*"
