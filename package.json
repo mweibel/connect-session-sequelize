@@ -1,6 +1,6 @@
 {
   "name": "connect-session-sequelize"
-  , "version": "1.0.0"
+  , "version": "2.0.2"
   , "description": "Session store for connect-session using sequelize"
   , "homepage": "https://github.com/mweibel/connect-session-sequelize"
   , "bugs": "https://github.com/mweibel/connect-session-sequelize/issues"
@@ -19,10 +19,10 @@
     "mocha": "~1.17.0"
     , "sqlite3": "~2.2.0"
     , "connect": "~2.12.0"
-    , "sequelize": ">= 1.6.0"
+    , "sequelize": ">= 2.0.0-dev12"
   }
   , "peerDependencies": {
-    "sequelize": ">= 1.6.0"
+    "sequelize": ">= 2.0.0-dev12"
   }
   , "engines": {
     "node": "*"

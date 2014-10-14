@@ -13,9 +13,16 @@ var db = new Sequelize('session_test', 'test', '12345', {
 	, sessionData = {foo: 'bar', 'baz': 42};
 
 describe('connect-session-middleware', function() {
+	before(function(done) {
+		store.sync().success(function() {
+			done();
+		}).error(function(err) {
+			done(err);
+		})
+	})
 	it('should have no length', function() {
-		store.length(function(c) {
-			assert.equals(0, c);
+		store.length(function(_err, c) {
+			assert.equal(0, c);
 		});
 	});
 	it('should save the session', function() {
