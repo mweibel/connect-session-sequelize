@@ -1,7 +1,7 @@
 
 var assert = require('assert')
-	, connect = require('connect')
-	, SequelizeStore = require('./lib/connect-session-sequelize')(connect.session.Store)
+	, session = require('express-session')
+	, SequelizeStore = require('./lib/connect-session-sequelize')(session.Store)
 	, Sequelize = require('sequelize');
 
 var db = new Sequelize('session_test', 'test', '12345', {
@@ -13,13 +13,9 @@ var db = new Sequelize('session_test', 'test', '12345', {
 	, sessionData = {foo: 'bar', 'baz': 42};
 
 describe('connect-session-middleware', function() {
-	before(function(done) {
-		store.sync().success(function() {
-			done();
-		}).error(function(err) {
-			done(err);
-		})
-	})
+	before(function() {
+		return store.sync();
+	});
 	it('should have no length', function() {
 		store.length(function(_err, c) {
 			assert.equal(0, c);
