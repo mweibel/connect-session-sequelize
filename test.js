@@ -4,6 +4,8 @@ var assert = require('assert')
 	, SequelizeStore = require('./lib/connect-session-sequelize')(session.Store)
 	, Sequelize = require('sequelize');
 
+Sequelize.Promise.longStackTraces();
+
 var db = new Sequelize('session_test', 'test', '12345', {
 		dialect: 'sqlite'
 		, logging: false
@@ -92,7 +94,34 @@ describe('#touch()', function() {
 					done(err);
 				});
 			});
-
 		});
-	})
+	});
+});
+
+describe('#clearExpiredSessions()', function() {
+	before(function() {
+		return store.sync();
+	});
+	it('should delete expired sessions', function(done) {
+		store.set(sessionId, sessionData, function(err, session) {
+			assert.ok(!err, '#set() got an error');
+			assert.ok(session, '#set() is not ok');
+
+			session.expires = new Date(Date.now() - 3600000);
+			session.save().then(function() {
+				store.clearExpiredSessions(function(err) {
+					assert.ok(!err, '#clearExpiredSessions() got an error');
+
+					store.length(function(err, c) {
+						assert.ok(!err, '#length() got an error');
+						assert.equal(0, c, "the expired session wasn't deleted");
+						done();
+					});
+				});
+			}, function(err) {
+				assert.ok(!err, 'session.save() got an error');
+				done(err);
+			});
+		});
+	});
 });
