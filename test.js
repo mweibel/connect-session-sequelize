@@ -16,18 +16,20 @@ describe('connect-session-middleware', function() {
 	before(function() {
 		return store.sync();
 	});
-	it('should have no length', function() {
+	it('should have no length', function(done) {
 		store.length(function(_err, c) {
 			assert.equal(0, c);
+			done();
 		});
 	});
-	it('should save the session', function() {
+	it('should save the session', function(done) {
 		store.set(sessionId, sessionData, function(err, session) {
 			assert.ok(!err, '#set() got an error');
 			assert.ok(session, '#set() is not ok');
 
-			store.length(function(c) {
-				assert.equals(1, c);
+			store.length(function(err, c) {
+				assert.ok(!err, '#length() got an error');
+				assert.equal(1, c, '#length() is not 1');
 
 				store.get(sessionId, function(err, data) {
 					assert.ok(!err, '#get() got an error');
@@ -35,6 +37,7 @@ describe('connect-session-middleware', function() {
 
 					store.destroy(sessionId, function(err) {
 						assert.ok(err, '#destroy() got an error');
+						done();
 					});
 				});
 			});
