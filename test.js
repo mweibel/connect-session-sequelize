@@ -12,7 +12,7 @@ var db = new Sequelize('session_test', 'test', '12345', {
 	, sessionId = '1234a'
 	, sessionData = {foo: 'bar', 'baz': 42};
 
-describe('connect-session-middleware', function() {
+describe('store', function() {
 	before(function() {
 		return store.sync();
 	});
@@ -21,6 +21,12 @@ describe('connect-session-middleware', function() {
 			assert.equal(0, c);
 			done();
 		});
+	});
+});
+
+describe('#set()', function() {
+	before(function() {
+		return store.sync();
 	});
 	it('should save the session', function(done) {
 		store.set(sessionId, sessionData, function(err, session) {
@@ -43,4 +49,50 @@ describe('connect-session-middleware', function() {
 			});
 		});
 	});
+	it('should have a future expires', function(done) {
+		store.set(sessionId, sessionData, function(err, session) {
+			assert.ok(!err, '#set() got an error');
+			assert.ok(session, '#set() is not ok');
+
+			assert.ok(session.expires, '.expires does not exist');
+			assert.ok(session.expires instanceof Date, '.expires is not a date');
+			assert.ok(session.expires > new Date(), '.expires is not in the future');
+
+			store.destroy(sessionId, function(err) {
+				assert.ok(err, '#destroy() got an error');
+				done();
+			});
+		});
+	});
+});
+
+describe('#touch()', function() {
+	before(function() {
+		return store.sync();
+	});
+	it('should update the expires', function(done) {
+		store.set(sessionId, sessionData, function(err, session) {
+			assert.ok(!err, '#set() got an error');
+			assert.ok(session, '#set() is not ok');
+
+			var firstExpires = session.expires;
+			store.touch(sessionId, sessionData, function(err) {
+				assert.ok(!err, '#touch() got an error');
+
+				store.sessionModel.find({where: {'sid': sessionId}}).then(function(session) {
+					assert.ok(session.expires.getTime() !== firstExpires.getTime(), '.expires has not changed');
+					assert.ok(session.expires > firstExpires, '.expires is not newer');
+
+					store.destroy(sessionId, function(err) {
+						assert.ok(err, '#destroy() got an error');
+						done();
+					});
+				}, function(err) {
+					assert.ok(!err, 'store.sessionModel.find() got an error');
+					done(err);
+				});
+			});
+
+		});
+	})
 });
