@@ -48,21 +48,20 @@ describe('connect-session-middleware', function() {
 });
 
 describe('connect-session-sequelize', function() {
-  var db    = {};
+  	var db = {};
 	beforeEach(function() {
-    db = new Sequelize('session_test', 'test', '12345', { dialect: 'sqlite', logging: false }),
-    db.import(path.join(__dirname, 'resources/model'));
+    		db = new Sequelize('session_test', 'test', '12345', { dialect: 'sqlite', logging: false }),
+    		db.import(path.join(__dirname, 'resources/model'));
 	});
 
-  it('should take a specific table from Sequelize DB', function() {
-    assert.ok(db.models.TestSession, 'Session model added to Sequelize Object');
-    var store = new SequelizeStore({db: db, table: 'TestSession'});
-    assert.equal(store.sessionModel.name, 'TestSession');
-  });
+  	it('should take a specific table from Sequelize DB', function() {
+    		assert.ok(db.models.TestSession, 'Session model added to Sequelize Object');
+    		var store = new SequelizeStore({db: db, table: 'TestSession'});
+    		assert.equal(store.sessionModel.name, 'TestSession');
+  	});
 
-  it('should load the default model if No Table is specified in options', function() {
-    var store = new SequelizeStore({db: db});
-    assert.equal(store.sessionModel.name, 'Session');
-  });
-
+  	it('should load the default model if No Table is specified in options', function() {
+    		var store = new SequelizeStore({db: db});
+    		assert.equal(store.sessionModel.name, 'Session');
+  	});
 });
