@@ -27,7 +27,6 @@
   , "engines": {
     "node": "*"
   }
-  , "repository": ""
   , "keywords": [
     "connect-session",
     "connect",
