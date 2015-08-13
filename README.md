@@ -13,6 +13,7 @@ $ npm install connect-session-sequelize
 # Options
 
 * `db` a successfully connected Sequelize instance
+* `table` *(optional)* a table/model which has already been imported to your Sequelize instance, this can be used if you want to use a specific table in your db
 
 # Usage
 

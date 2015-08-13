@@ -1,12 +1,12 @@
 {
   "name": "connect-session-sequelize"
-  , "version": "2.0.4"
+  , "version": "2.2.1"
   , "description": "Session store for connect-session using sequelize"
   , "homepage": "https://github.com/mweibel/connect-session-sequelize"
   , "bugs": "https://github.com/mweibel/connect-session-sequelize/issues"
   , "main": "index.js"
   , "scripts": {
-    "test": "mocha ./test.js"
+    "test": "mocha ./test"
   }
   , "repository": {
 	"type": "git"
@@ -27,7 +27,6 @@
   , "engines": {
     "node": "*"
   }
-  , "repository": ""
   , "keywords": [
     "connect-session",
     "connect",
