@@ -67,6 +67,18 @@ app.use(session({
 
 `SequelizeStore.sync()` - will run a sequelize `sync()` operation on the model for an initialized SequelizeStore object. Use this if you would like the the db table to be created for you.
 
+# Session expiry
+
+Session records are automatically expired and removed from the database on an interval. The `cookie.expires` property is used to set session expiry time. If that property doesn't exist, a default expiry of 24 hours is used. Expired session are removed from the database every 15 minutes by default. That interval as well as the default expiry time can be set as store options:
+
+```
+new SequelizeStore({
+  ...
+  checkExpirationInterval: 15 * 60 * 1000, // The interval at which to cleanup expired sessions in milliseconds.
+  expiration: 24 * 60 * 60 * 1000  // The maximum age (in milliseconds) of a valid session.
+});
+```
+
 
 # License
 
