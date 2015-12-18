@@ -63,7 +63,7 @@ describe('#set()', function() {
           assert.deepEqual(sessionData, data);
 
           store.destroy(sessionId, function(err) {
-            assert.ok(err, '#destroy() got an error');
+            assert.ok(!err, '#destroy() got an error');
             done();
           });
         });
@@ -80,7 +80,7 @@ describe('#set()', function() {
       assert.ok(session.expires > new Date(), '.expires is not in the future');
 
       store.destroy(sessionId, function(err) {
-        assert.ok(err, '#destroy() got an error');
+        assert.ok(!err, '#destroy() got an error');
         done();
       });
     });
@@ -105,7 +105,7 @@ describe('#touch()', function() {
           assert.ok(session.expires > firstExpires, '.expires is not newer');
 
           store.destroy(sessionId, function(err) {
-            assert.ok(err, '#destroy() got an error');
+            assert.ok(!err, '#destroy() got an error');
             done();
           });
         }, function(err) {

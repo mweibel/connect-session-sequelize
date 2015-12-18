@@ -19,10 +19,10 @@
     "mocha": "^2.1.0"
     , "sqlite3": "^3.0.5"
     , "express-session": "^1.10.3"
-    , "sequelize": ">= 2.0.0-rc2"
+    , "sequelize": ">= 2.1.0"
   }
   , "peerDependencies": {
-    "sequelize": ">= 2.0.0-rc2"
+    "sequelize": ">= 2.1.0"
   }
   , "engines": {
     "node": "*"
