@@ -1,40 +1,40 @@
 {
-  "name": "connect-session-sequelize"
-  , "version": "3.1.0"
-  , "description": "Session store for connect-session using sequelize"
-  , "homepage": "https://github.com/mweibel/connect-session-sequelize"
-  , "bugs": "https://github.com/mweibel/connect-session-sequelize/issues"
-  , "main": "index.js"
-  , "scripts": {
+  "name": "connect-session-sequelize",
+  "version": "3.1.0",
+  "description": "Session store for connect-session using sequelize",
+  "homepage": "https://github.com/mweibel/connect-session-sequelize",
+  "bugs": "https://github.com/mweibel/connect-session-sequelize/issues",
+  "main": "index.js",
+  "scripts": {
     "test": "mocha ./test"
-  }
-  , "repository": {
-	"type": "git"
-	, "url": "https://github.com/mweibel/connect-session-sequelize.git"
-  }
-  , "dependencies": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mweibel/connect-session-sequelize.git"
+  },
+  "dependencies": {
     "debug": "^2.1.1"
-  }
-  , "devDependencies": {
-    "mocha": "^2.1.0"
-    , "sqlite3": "^3.0.5"
-    , "express-session": "^1.10.3"
-    , "sequelize": ">= 2.1.0"
-  }
-  , "peerDependencies": {
+  },
+  "devDependencies": {
+    "express-session": "^1.10.3",
+    "mocha": "^2.5.0",
+    "sequelize": ">= 2.1.0",
+    "sqlite3": "^3.1.4"
+  },
+  "peerDependencies": {
     "sequelize": ">= 2.1.0"
-  }
-  , "engines": {
+  },
+  "engines": {
     "node": "*"
-  }
-  , "keywords": [
+  },
+  "keywords": [
     "connect-session",
     "connect",
     "sequelize",
     "postgres",
     "mysql",
     "sqlite"
-  ]
-  , "author": "Michael Weibel <michael.weibel@gmail.com> (https://github.com/mweibel)"
-  , "license": "MIT"
+  ],
+  "author": "Michael Weibel <michael.weibel@gmail.com> (https://github.com/mweibel)",
+  "license": "MIT"
 }
