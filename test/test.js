@@ -85,6 +85,41 @@ describe('#set()', function() {
       });
     });
   });
+
+  describe('extendDefaultFields', function() {
+    var db, store;
+    before(function() {
+      function extend(defaults, session) {
+        defaults.userId = session.baz;
+        return defaults;
+      }
+      db = new Sequelize('session_test', 'test', '12345', { dialect: 'sqlite', logging: false }),
+      db.import(path.join(__dirname, 'resources/model'));
+      store = new SequelizeStore({db: db, table: 'TestSession', extendDefaultFields: extend })
+      return store.sync()
+    });
+    it('should extend defaults when extendDefaultFields set', function(done) {
+      store.set(sessionId, sessionData, function(err, session) {
+        assert.ok(!err, '#set() got an error');
+        assert.ok(session, '#set() is not ok');
+
+        db.models.TestSession.findOne({
+          where: {
+            userId: sessionData.baz
+          }
+        })
+        .then(function(_session) {
+          assert.ok(_session, 'session userId not saved');
+          assert.deepEqual(session.dataValues, _session.dataValues);
+
+          store.destroy(sessionId, function(err) {
+            assert.ok(!err, '#destroy() got an error');
+            done();
+          });
+        });
+      });
+    });
+  });
 });
 
 describe('#touch()', function() {
