@@ -14,6 +14,7 @@ $ npm install connect-session-sequelize
 
 * `db` a successfully connected Sequelize instance
 * `table` *(optional)* a table/model which has already been imported to your Sequelize instance, this can be used if you want to use a specific table in your db
+* `extendDefaultFields` *(optional)* a way add custom data to table columns. Useful if using a custom model definition
 
 # Usage
 
@@ -79,6 +80,35 @@ new SequelizeStore({
 });
 ```
 
+# Add custom field(s) as a column
+
+The `extendDefaultFields` can be used to add custom fields to the session table. These fields will be read-only as they will be inserted only when the session is first created as `defaults`. Make sure to return an object which contains unmodified `data` and `expires` properties, or else the module functionality will be broken:
+
+```javascript
+var Session = sequelize.define('Session', {
+  sid: {
+    type: Sequelize.STRING,
+    primaryKey: true
+  },
+  userId: Sequelize.STRING,
+  expires: Sequelize.DATE,
+  data: Sequelize.STRING(50000)
+});
+
+function extendDefaultFields(defaults, session) {
+  return {
+    data: defaults.data,
+    expires: defaults.expires,
+    userId: session.userId
+  };
+}
+
+var store = new SessionStore({
+  db: sequelize,
+  table: 'Session',
+  extendDefaultFields: extendDefaultFields
+});
+```
 
 # License
 
