@@ -6,20 +6,23 @@
   "bugs": "https://github.com/mweibel/connect-session-sequelize/issues",
   "main": "index.js",
   "scripts": {
-    "test": "mocha ./test"
+    "test": "mocha ./test",
+    "lint": "standard"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/mweibel/connect-session-sequelize.git"
   },
   "dependencies": {
-    "debug": "^2.1.1"
+    "debug": "^2.1.1",
+    "deep-equal": "^1.0.1"
   },
   "devDependencies": {
     "express-session": "^1.10.3",
     "mocha": "^3.0.0",
     "sequelize": ">= 2.1.0",
-    "sqlite3": "^3.1.4"
+    "sqlite3": "^3.1.4",
+    "standard": "^8.2.0"
   },
   "peerDependencies": {
     "sequelize": ">= 2.1.0"

@@ -1,1 +1,1 @@
-module.exports = require('./lib/connect-session-sequelize');
+module.exports = require('./lib/connect-session-sequelize')
