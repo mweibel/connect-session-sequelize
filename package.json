@@ -21,7 +21,7 @@
     "express-session": "^1.10.3",
     "mocha": "^3.0.0",
     "sequelize": ">=3.24.5",
-    "sqlite3": "^3.1.4",
+    "sqlite3": "^3.1.8",
     "standard": "^8.2.0"
   },
   "peerDependencies": {
