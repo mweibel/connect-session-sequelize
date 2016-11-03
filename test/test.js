@@ -103,6 +103,7 @@ describe('extendDefaultFields', function () {
   })
   it('should extend defaults when extendDefaultFields is set', function (done) {
     store.set(sessionId, sessionData, function (err, session) {
+      console.log("Error : "+ err)
       assert.ok(!err, '#set() got an error')
       assert.ok(session, '#set() is not ok')
 
