@@ -102,25 +102,29 @@ describe('extendDefaultFields', function () {
     return store.sync()
   })
   it('should extend defaults when extendDefaultFields is set', function (done) {
-    store.set(sessionId, sessionData, function (err, session) {
-      console.log("Error : "+ err)
-      assert.ok(!err, '#set() got an error')
-      assert.ok(session, '#set() is not ok')
+    store.sync().then(function () {
+      store.set(sessionId, sessionData, function (err, session) {
+        assert.ok(!err, '#set() got an error')
+        assert.ok(session, '#set() is not ok')
 
-      db.models.TestSession.findOne({
-        where: {
-          userId: sessionData.baz
-        }
-      })
-      .then(function (_session) {
-        assert.ok(_session, 'session userId not saved')
-        assert.deepEqual(session.dataValues, _session.dataValues)
-
-        store.destroy(sessionId, function (err) {
-          assert.ok(!err, '#destroy() got an error')
-          done()
+        db.models.TestSession.findOne({
+          where: {
+            userId: sessionData.baz
+          }
         })
+          .then(function (_session) {
+            assert.ok(_session, 'session userId not saved')
+            assert.deepEqual(session.dataValues, _session.dataValues)
+
+            store.destroy(sessionId, function (err) {
+              assert.ok(!err, '#destroy() got an error')
+              done()
+            })
+          })
       })
+        .catch(function (err) {
+          assert.of(!err, "Failed to sync the database")
+        })
     })
   })
 
