@@ -99,7 +99,7 @@ describe('extendDefaultFields', function () {
     db = new Sequelize('session_test', 'test', '12345', { dialect: 'sqlite', logging: console.log })
     db.import(path.join(__dirname, 'resources/model'))
     store = new SequelizeStore({db: db, table: 'TestSession', extendDefaultFields: extend})
-    store.sync().then(function () {
+    return store.sync().then(function () {
         console.log("Migration completed")
       }).catch(function(err) {
         logger.error("Could not complete sequelize sync", {'err': err});
