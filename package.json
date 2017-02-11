@@ -18,7 +18,7 @@
     "deep-equal": "^1.0.1"
   },
   "devDependencies": {
-    "express-session": "^1.10.3",
+    "express-session": "^1.15.1",
     "mocha": "^3.0.0",
     "sequelize": ">=3.24.5",
     "sqlite3": "^3.1.4",
