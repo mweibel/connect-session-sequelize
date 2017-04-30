@@ -39,5 +39,6 @@
     "sqlite"
   ],
   "author": "Michael Weibel <michael.weibel@gmail.com> (https://github.com/mweibel)",
-  "license": "MIT"
+  "license": "MIT",
+  "files": ["lib"]
 }
