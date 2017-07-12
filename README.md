@@ -22,7 +22,7 @@ With connect
 
 ```javascript
 var connect = require('connect')
-	// for express, just call it with 'require('express-session').Store'
+	// for express, just call it with 'require('connect-session-sequelize')(session.Store)'
 	, SequelizeStore = require('connect-session-sequelize')(connect.session.Store);
 
 connect().use(connect.session({
@@ -67,7 +67,21 @@ app.use(session({
 // continue as normal
 ```
 
-`SequelizeStore.sync()` - will run a sequelize `sync()` operation on the model for an initialized SequelizeStore object. Use this if you would like the the db table to be created for you.
+If you want SequelizeStore to create/sync the database table for you, you can call `sync()` against an instance of `SequelizeStore` - this will run a sequelize `sync()` operation on the model for an initialized SequelizeStore object:
+
+```
+var myStore = new SequelizeStore({
+    db: sequelize
+}) 
+app.use(session({
+    secret: 'keyboard cat',
+    store: myStore,
+    resave: false, 
+    proxy: true
+}))
+
+myStore.sync();
+```
 
 # Session expiry
 
