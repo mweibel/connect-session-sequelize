@@ -123,7 +123,7 @@ describe('extendDefaultFields', function () {
           })
       })
         .catch(function (err) {
-          assert.of(!err, "Failed to sync the database")
+          assert.of(!err, 'Failed to sync the database')
         })
     })
   })

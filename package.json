@@ -14,15 +14,15 @@
     "url": "https://github.com/mweibel/connect-session-sequelize.git"
   },
   "dependencies": {
-    "debug": "^2.1.1",
+    "debug": "^3.1.0",
     "deep-equal": "^1.0.1"
   },
   "devDependencies": {
     "express-session": "^1.10.3",
-    "mocha": "^3.0.0",
+    "mocha": "^4.0.1",
     "sequelize": ">=3.24.5",
     "sqlite3": "^3.1.4",
-    "standard": "^8.2.0"
+    "standard": "^10.0.3"
   },
   "peerDependencies": {
     "sequelize": ">= 3.24.5"
