@@ -1,6 +1,6 @@
 {
   "name": "connect-session-sequelize",
-  "version": "4.1.0",
+  "version": "5.0.0",
   "description": "Session store for connect-session using sequelize",
   "homepage": "https://github.com/mweibel/connect-session-sequelize",
   "bugs": "https://github.com/mweibel/connect-session-sequelize/issues",
@@ -28,7 +28,7 @@
     "sequelize": ">= 3.24.5"
   },
   "engines": {
-    "node": "*"
+    "node": ">= 4"
   },
   "keywords": [
     "connect-session",
@@ -40,5 +40,7 @@
   ],
   "author": "Michael Weibel <michael.weibel@gmail.com> (https://github.com/mweibel)",
   "license": "MIT",
-  "files": ["lib"]
+  "files": [
+    "lib"
+  ]
 }
