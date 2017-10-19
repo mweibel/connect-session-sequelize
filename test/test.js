@@ -12,7 +12,11 @@ var db = new Sequelize('session_test', 'test', '12345', {
   dialect: 'sqlite',
   logging: false
 })
-var store = new SequelizeStore({db: db})
+var store = new SequelizeStore({
+  db: db,
+  // disable expiration interval otherwise tests don't finish
+  checkExpirationInterval: -1
+})
 var sessionId = '1234a'
 var sessionData = {foo: 'bar', 'baz': 42}
 
@@ -37,12 +41,12 @@ describe('store db', function () {
 
   it('should take a specific table from Sequelize DB', function () {
     assert.ok(db.models.TestSession, 'Session model added to Sequelize Object')
-    var store = new SequelizeStore({db: db, table: 'TestSession'})
+    var store = new SequelizeStore({db: db, table: 'TestSession', checkExpirationInterval: -1})
     assert.equal(store.sessionModel.name, 'TestSession')
   })
 
   it('should load the default model if No Table is specified in options', function () {
-    var store = new SequelizeStore({db: db})
+    var store = new SequelizeStore({db: db, checkExpirationInterval: -1})
     assert.equal(store.sessionModel.name, 'Session')
   })
 })
@@ -98,7 +102,7 @@ describe('extendDefaultFields', function () {
     }
     db = new Sequelize('session_test', 'test', '12345', { dialect: 'sqlite', logging: console.log })
     db.import(path.join(__dirname, 'resources/model'))
-    store = new SequelizeStore({db: db, table: 'TestSession', extendDefaultFields: extend})
+    store = new SequelizeStore({db: db, table: 'TestSession', extendDefaultFields: extend, checkExpirationInterval: -1})
     return store.sync()
   })
   it('should extend defaults when extendDefaultFields is set', function (done) {
@@ -123,7 +127,7 @@ describe('extendDefaultFields', function () {
           })
       })
         .catch(function (err) {
-          assert.of(!err, "Failed to sync the database")
+          assert.ifError(err)
         })
     })
   })
