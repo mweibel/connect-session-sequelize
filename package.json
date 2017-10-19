@@ -28,7 +28,7 @@
     "sequelize": ">= 3.24.5"
   },
   "engines": {
-    "node": ">= 4"
+    "node": ">= 4.1.0"
   },
   "keywords": [
     "connect-session",

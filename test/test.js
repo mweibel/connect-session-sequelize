@@ -127,7 +127,7 @@ describe('extendDefaultFields', function () {
           })
       })
         .catch(function (err) {
-          assert.of(!err, 'Failed to sync the database')
+          assert.ifError(err)
         })
     })
   })
