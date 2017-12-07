@@ -1,4 +1,4 @@
-/* global describe,before,beforeEach,it */
+/* global describe,before,beforeEach,after,afterEach,it */
 
 var assert = require('assert')
 var session = require('express-session')
@@ -14,11 +14,15 @@ var db = new Sequelize('session_test', 'test', '12345', {
 })
 var store = new SequelizeStore({
   db: db,
-  // disable expiration interval otherwise tests don't finish
-  checkExpirationInterval: -1
+  // the expiration check interval is removed up in an `after` block
+  checkExpirationInterval: 100
 })
 var sessionId = '1234a'
 var sessionData = {foo: 'bar', 'baz': 42}
+
+after('clean up resources, allowing tests to terminate', function () {
+  store.stopExpiringSessions()
+})
 
 describe('store', function () {
   before(function () {
@@ -215,5 +219,31 @@ describe('#clearExpiredSessions()', function () {
         done(err)
       })
     })
+  })
+})
+
+describe('#stopExpiringSessions()', function () {
+  var store
+  beforeEach(function () {
+    var db = new Sequelize(
+      'session_test',
+      'test',
+      '12345',
+      { dialect: 'sqlite', logging: false }
+    )
+    db.import(path.join(__dirname, 'resources/model'))
+    store = new SequelizeStore({
+      db: db,
+      table: 'TestSession',
+      checkExpirationInterval: 100
+    })
+  })
+  afterEach('clean up resources', function () {
+    store.stopExpiringSessions()
+  })
+  it('should cancel the session check timer', function () {
+    assert.ok(store._expirationInterval, 'missing timeout object')
+    store.stopExpiringSessions()
+    assert.equal(store._expirationInterval, null, 'expiration interval not nullified')
   })
 })

@@ -61,7 +61,7 @@ app.use(session({
   store: new SequelizeStore({
     db: sequelize
   }),
-  resave: false, // we support the touch method so per the express-session docs this should be set to false 
+  resave: false, // we support the touch method so per the express-session docs this should be set to false
   proxy: true // if you do SSL outside of node.
 }))
 // continue as normal
@@ -69,14 +69,14 @@ app.use(session({
 
 If you want SequelizeStore to create/sync the database table for you, you can call `sync()` against an instance of `SequelizeStore` - this will run a sequelize `sync()` operation on the model for an initialized SequelizeStore object:
 
-```
+```javascript
 var myStore = new SequelizeStore({
     db: sequelize
-}) 
+})
 app.use(session({
     secret: 'keyboard cat',
     store: myStore,
-    resave: false, 
+    resave: false,
     proxy: true
 }))
 
@@ -87,11 +87,27 @@ myStore.sync();
 
 Session records are automatically expired and removed from the database on an interval. The `cookie.expires` property is used to set session expiry time. If that property doesn't exist, a default expiry of 24 hours is used. Expired session are removed from the database every 15 minutes by default. That interval as well as the default expiry time can be set as store options:
 
-```
+```javascript
 new SequelizeStore({
   ...
   checkExpirationInterval: 15 * 60 * 1000, // The interval at which to cleanup expired sessions in milliseconds.
   expiration: 24 * 60 * 60 * 1000  // The maximum age (in milliseconds) of a valid session.
+});
+```
+
+## Expiration interval cleanup: `stopExpiringSessions`
+
+As expirations are checked on an interval timer, `connect-session-sequelize` can keep your process from exiting. This can be problematic e.g. in testing when it is known that the application code will no longer be used, but the test script never terminates. If you know that the process will no longer be used, you can manually clean up the interval by calling the `stopExpiringSessions` method:
+
+```js
+// assuming you have set up a typical session store, for example:
+var myStore = new SequelizeStore({
+  db: sequelize
+});
+
+// you can stop expiring sessions (cancel the interval). Example using Mocha:
+after('clean up resources', () => {
+  myStore.stopExpiringSessions();
 });
 ```
 
