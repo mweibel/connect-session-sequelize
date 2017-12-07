@@ -1,4 +1,4 @@
-/* global describe,before,beforeEach,it */
+/* global describe,before,beforeEach,after,afterEach,it */
 
 var assert = require('assert')
 var session = require('express-session')
