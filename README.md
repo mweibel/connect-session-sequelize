@@ -61,7 +61,7 @@ app.use(session({
   store: new SequelizeStore({
     db: sequelize
   }),
-  resave: false, // we support the touch method so per the express-session docs this should be set to false 
+  resave: false, // we support the touch method so per the express-session docs this should be set to false
   proxy: true // if you do SSL outside of node.
 }))
 // continue as normal
@@ -72,11 +72,11 @@ If you want SequelizeStore to create/sync the database table for you, you can ca
 ```
 var myStore = new SequelizeStore({
     db: sequelize
-}) 
+})
 app.use(session({
     secret: 'keyboard cat',
     store: myStore,
-    resave: false, 
+    resave: false,
     proxy: true
 }))
 
@@ -92,6 +92,22 @@ new SequelizeStore({
   ...
   checkExpirationInterval: 15 * 60 * 1000, // The interval at which to cleanup expired sessions in milliseconds.
   expiration: 24 * 60 * 60 * 1000  // The maximum age (in milliseconds) of a valid session.
+});
+```
+
+## Expiration interval cleanup: `stopExpiringSessions`
+
+As expirations are checked on an interval timer, `connect-session-sequelize` can keep your process from exiting. This can be problematic e.g. in testing when it is known that the application code will no longer be used, but the test script never terminates. If you know that the process will no longer be used, you can manually clean up the interval by calling the `stopExpiringSessions` method:
+
+```js
+// assuming you have set up a typical session store, for example:
+var myStore = new SequelizeStore({
+  db: sequelize
+});
+
+// you can stop expiring sessions (cancel the interval). Example using Mocha:
+after('clean up resources', () => {
+  myStore.stopExpiringSessions();
 });
 ```
 
