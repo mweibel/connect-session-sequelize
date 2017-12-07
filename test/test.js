@@ -14,11 +14,15 @@ var db = new Sequelize('session_test', 'test', '12345', {
 })
 var store = new SequelizeStore({
   db: db,
-  // disable expiration interval otherwise tests don't finish
-  checkExpirationInterval: -1
+  // the expiration check interval is removed up in an `after` block
+  checkExpirationInterval: 100
 })
 var sessionId = '1234a'
 var sessionData = {foo: 'bar', 'baz': 42}
+
+after('clean up resources, allowing tests to terminate', function () {
+  store.stopExpiringSessions()
+})
 
 describe('store', function () {
   before(function () {
