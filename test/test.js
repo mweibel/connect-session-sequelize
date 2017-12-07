@@ -221,3 +221,29 @@ describe('#clearExpiredSessions()', function () {
     })
   })
 })
+
+describe('#stopExpiringSessions()', function () {
+  var store
+  beforeEach(function () {
+    var db = new Sequelize(
+      'session_test',
+      'test',
+      '12345',
+      { dialect: 'sqlite', logging: false }
+    )
+    db.import(path.join(__dirname, 'resources/model'))
+    store = new SequelizeStore({
+      db: db,
+      table: 'TestSession',
+      checkExpirationInterval: 100
+    })
+  })
+  afterEach('clean up resources', function () {
+    store.stopExpiringSessions()
+  })
+  it('should cancel the session check timer', function () {
+    assert.ok(store._expirationInterval, 'missing timeout object')
+    store.stopExpiringSessions()
+    assert.equal(store._expirationInterval, null, 'expiration interval not nullified')
+  })
+})
