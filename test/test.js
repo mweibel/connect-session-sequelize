@@ -39,7 +39,7 @@ describe('store', function () {
 describe('store db', function () {
   var db = {}
   beforeEach(function () {
-    db = new Sequelize('session_test', 'test', '12345', { dialect: 'sqlite', logging: false })
+    db = new Sequelize('session_test', 'test', '12345', {dialect: 'sqlite', logging: false})
     db.import(path.join(__dirname, 'resources/model'))
   })
 
@@ -104,7 +104,8 @@ describe('extendDefaultFields', function () {
       defaults.userId = session.baz
       return defaults
     }
-    db = new Sequelize('session_test', 'test', '12345', { dialect: 'sqlite', logging: console.log })
+
+    db = new Sequelize('session_test', 'test', '12345', {dialect: 'sqlite', logging: console.log})
     db.import(path.join(__dirname, 'resources/model'))
     store = new SequelizeStore({db: db, table: 'TestSession', extendDefaultFields: extend, checkExpirationInterval: -1})
     return store.sync()
@@ -120,19 +121,19 @@ describe('extendDefaultFields', function () {
             userId: sessionData.baz
           }
         })
-          .then(function (_session) {
-            assert.ok(_session, 'session userId not saved')
-            assert.deepEqual(session.dataValues, _session.dataValues)
+        .then(function (_session) {
+          assert.ok(_session, 'session userId not saved')
+          assert.deepEqual(session.dataValues, _session.dataValues)
 
-            store.destroy(sessionId, function (err) {
-              assert.ok(!err, '#destroy() got an error')
-              done()
-            })
+          store.destroy(sessionId, function (err) {
+            assert.ok(!err, '#destroy() got an error')
+            done()
           })
-      })
-        .catch(function (err) {
-          assert.ifError(err)
         })
+      })
+      .catch(function (err) {
+        assert.ifError(err)
+      })
     })
   })
 
@@ -150,15 +151,15 @@ describe('extendDefaultFields', function () {
             userId: 'baz'
           }
         })
-          .then(function (_session) {
-            assert.ok(_session, 'session userId not saved')
-            assert.deepEqual(innerSession.dataValues, _session.dataValues)
+        .then(function (_session) {
+          assert.ok(_session, 'session userId not saved')
+          assert.deepEqual(innerSession.dataValues, _session.dataValues)
 
-            store.destroy(sessionId, function (err) {
-              assert.ok(!err, '#destroy() got an error')
-              done()
-            })
+          store.destroy(sessionId, function (err) {
+            assert.ok(!err, '#destroy() got an error')
+            done()
           })
+        })
       })
     })
   })
@@ -194,6 +195,39 @@ describe('#touch()', function () {
   })
 })
 
+describe('#disableTouch()', function () {
+  before(function () {
+    store.options.disableTouch = true
+    return store.sync()
+  })
+  after('set disableTouch back to false.', function () {
+    store.options.disableTouch = false
+  })
+  it('should NOT update the expires', function (done) {
+    store.set(sessionId, sessionData, function (err, session) {
+      assert.ok(!err, '#set() got an error')
+      assert.ok(session, '#set() is not ok')
+
+      var firstExpires = session.expires
+      store.touch(sessionId, sessionData, function (err) {
+        assert.ok(!err, '#touch() got an error')
+
+        store.sessionModel.find({where: {'sid': sessionId}}).then(function (session) {
+          assert.ok(session.expires.getTime() === firstExpires.getTime(), '.expires was incorrectly changed')
+
+          store.destroy(sessionId, function (err) {
+            assert.ok(!err, '#destroy() got an error')
+            done()
+          })
+        }, function (err) {
+          assert.ok(!err, 'store.sessionModel.find() got an error')
+          done(err)
+        })
+      })
+    })
+  })
+})
+
 describe('#clearExpiredSessions()', function () {
   before(function () {
     return store.sync()
@@ -210,7 +244,7 @@ describe('#clearExpiredSessions()', function () {
 
           store.length(function (err, c) {
             assert.ok(!err, '#length() got an error')
-            assert.equal(0, c, "the expired session wasn't deleted")
+            assert.equal(0, c, 'the expired session wasn\'t deleted')
             done()
           })
         })
@@ -229,7 +263,7 @@ describe('#stopExpiringSessions()', function () {
       'session_test',
       'test',
       '12345',
-      { dialect: 'sqlite', logging: false }
+      {dialect: 'sqlite', logging: false}
     )
     db.import(path.join(__dirname, 'resources/model'))
     store = new SequelizeStore({
