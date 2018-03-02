@@ -95,6 +95,21 @@ describe('#set()', function () {
       })
     })
   })
+  it('should have model instance methods', function (done) {
+    store.set(sessionId, sessionData, function (err, session) {
+      assert.ok(!err, '#set() got an error')
+      assert.ok(session, '#set() is not ok')
+
+      assert.ok(session.dataValues)
+      assert.ok(session.update)
+      assert.ok(session.save)
+
+      store.destroy(sessionId, function (err) {
+        assert.ok(!err, '#destroy() got an error')
+        done()
+      })
+    })
+  })
 })
 
 describe('extendDefaultFields', function () {
