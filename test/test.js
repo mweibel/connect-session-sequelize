@@ -9,6 +9,7 @@ var Sequelize = require('sequelize')
 Sequelize.Promise.longStackTraces()
 
 var db = new Sequelize('session_test', 'test', '12345', {
+  operatorsAliases: false,
   dialect: 'sqlite',
   logging: false
 })
@@ -39,7 +40,7 @@ describe('store', function () {
 describe('store db', function () {
   var db = {}
   beforeEach(function () {
-    db = new Sequelize('session_test', 'test', '12345', {dialect: 'sqlite', logging: false})
+    db = new Sequelize('session_test', 'test', '12345', {operatorsAliases: false, dialect: 'sqlite', logging: false})
     db.import(path.join(__dirname, 'resources/model'))
   })
 
@@ -120,7 +121,7 @@ describe('extendDefaultFields', function () {
       return defaults
     }
 
-    db = new Sequelize('session_test', 'test', '12345', {dialect: 'sqlite', logging: console.log})
+    db = new Sequelize('session_test', 'test', '12345', {operatorsAliases: false, dialect: 'sqlite', logging: console.log})
     db.import(path.join(__dirname, 'resources/model'))
     store = new SequelizeStore({db: db, table: 'TestSession', extendDefaultFields: extend, checkExpirationInterval: -1})
     return store.sync()
@@ -278,7 +279,7 @@ describe('#stopExpiringSessions()', function () {
       'session_test',
       'test',
       '12345',
-      {dialect: 'sqlite', logging: false}
+      {operatorsAliases: false, dialect: 'sqlite', logging: false}
     )
     db.import(path.join(__dirname, 'resources/model'))
     store = new SequelizeStore({
