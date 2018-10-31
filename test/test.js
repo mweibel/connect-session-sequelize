@@ -193,7 +193,7 @@ describe('#touch()', function () {
       store.touch(sessionId, sessionData, function (err) {
         assert.ok(!err, '#touch() got an error')
 
-        store.sessionModel.find({where: {'sid': sessionId}}).then(function (session) {
+        store.sessionModel.findOne({where: {'sid': sessionId}}).then(function (session) {
           assert.ok(session.expires.getTime() !== firstExpires.getTime(), '.expires has not changed')
           assert.ok(session.expires > firstExpires, '.expires is not newer')
 
@@ -202,7 +202,7 @@ describe('#touch()', function () {
             done()
           })
         }, function (err) {
-          assert.ok(!err, 'store.sessionModel.find() got an error')
+          assert.ok(!err, 'store.sessionModel.findOne() got an error')
           done(err)
         })
       })
@@ -227,7 +227,7 @@ describe('#disableTouch()', function () {
       store.touch(sessionId, sessionData, function (err) {
         assert.ok(!err, '#touch() got an error')
 
-        store.sessionModel.find({where: {'sid': sessionId}}).then(function (session) {
+        store.sessionModel.findOne({where: {'sid': sessionId}}).then(function (session) {
           assert.ok(session.expires.getTime() === firstExpires.getTime(), '.expires was incorrectly changed')
 
           store.destroy(sessionId, function (err) {
@@ -235,7 +235,7 @@ describe('#disableTouch()', function () {
             done()
           })
         }, function (err) {
-          assert.ok(!err, 'store.sessionModel.find() got an error')
+          assert.ok(!err, 'store.sessionModel.findOne() got an error')
           done(err)
         })
       })
