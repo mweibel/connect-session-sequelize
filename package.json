@@ -19,16 +19,16 @@
   },
   "devDependencies": {
     "express-session": "^1.10.3",
-    "mocha": "^4.0.1",
+    "mocha": "^5.2.0",
     "sequelize": ">=3.24.5",
-    "sqlite3": "^3.1.4",
-    "standard": "^10.0.3"
+    "sqlite3": "^4.0.3",
+    "standard": "^12.0.1"
   },
   "peerDependencies": {
     "sequelize": ">= 3.24.5"
   },
   "engines": {
-    "node": ">= 4.1.0"
+    "node": ">= 5"
   },
   "keywords": [
     "connect-session",

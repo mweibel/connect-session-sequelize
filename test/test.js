@@ -19,7 +19,7 @@ var store = new SequelizeStore({
   checkExpirationInterval: 100
 })
 var sessionId = '1234a'
-var sessionData = {foo: 'bar', 'baz': 42}
+var sessionData = { foo: 'bar', 'baz': '42' }
 
 after('clean up resources, allowing tests to terminate', function () {
   store.stopExpiringSessions()
@@ -31,7 +31,7 @@ describe('store', function () {
   })
   it('should have no length', function (done) {
     store.length(function (_err, c) {
-      assert.equal(0, c)
+      assert.strictEqual(0, c)
       done()
     })
   })
@@ -40,19 +40,19 @@ describe('store', function () {
 describe('store db', function () {
   var db = {}
   beforeEach(function () {
-    db = new Sequelize('session_test', 'test', '12345', {operatorsAliases: false, dialect: 'sqlite', logging: false})
+    db = new Sequelize('session_test', 'test', '12345', { operatorsAliases: false, dialect: 'sqlite', logging: false })
     db.import(path.join(__dirname, 'resources/model'))
   })
 
   it('should take a specific table from Sequelize DB', function () {
     assert.ok(db.models.TestSession, 'Session model added to Sequelize Object')
-    var store = new SequelizeStore({db: db, table: 'TestSession', checkExpirationInterval: -1})
-    assert.equal(store.sessionModel.name, 'TestSession')
+    var store = new SequelizeStore({ db: db, table: 'TestSession', checkExpirationInterval: -1 })
+    assert.strictEqual(store.sessionModel.name, 'TestSession')
   })
 
   it('should load the default model if No Table is specified in options', function () {
-    var store = new SequelizeStore({db: db, checkExpirationInterval: -1})
-    assert.equal(store.sessionModel.name, 'Session')
+    var store = new SequelizeStore({ db: db, checkExpirationInterval: -1 })
+    assert.strictEqual(store.sessionModel.name, 'Session')
   })
 })
 
@@ -67,11 +67,11 @@ describe('#set()', function () {
 
       store.length(function (err, c) {
         assert.ok(!err, '#length() got an error')
-        assert.equal(1, c, '#length() is not 1')
+        assert.strictEqual(1, c, '#length() is not 1')
 
         store.get(sessionId, function (err, data) {
           assert.ok(!err, '#get() got an error')
-          assert.deepEqual(sessionData, data)
+          assert.deepStrictEqual(sessionData, data)
 
           store.destroy(sessionId, function (err) {
             assert.ok(!err, '#destroy() got an error')
@@ -121,9 +121,9 @@ describe('extendDefaultFields', function () {
       return defaults
     }
 
-    db = new Sequelize('session_test', 'test', '12345', {operatorsAliases: false, dialect: 'sqlite', logging: console.log})
+    db = new Sequelize('session_test', 'test', '12345', { operatorsAliases: false, dialect: 'sqlite', logging: console.log })
     db.import(path.join(__dirname, 'resources/model'))
-    store = new SequelizeStore({db: db, table: 'TestSession', extendDefaultFields: extend, checkExpirationInterval: -1})
+    store = new SequelizeStore({ db: db, table: 'TestSession', extendDefaultFields: extend, checkExpirationInterval: -1 })
     return store.sync()
   })
   it('should extend defaults when extendDefaultFields is set', function (done) {
@@ -137,28 +137,28 @@ describe('extendDefaultFields', function () {
             userId: sessionData.baz
           }
         })
-        .then(function (_session) {
-          assert.ok(_session, 'session userId not saved')
-          assert.deepEqual(session.dataValues, _session.dataValues)
+          .then(function (_session) {
+            assert.ok(_session, 'session userId not saved')
+            assert.deepStrictEqual(session.dataValues, _session.dataValues)
 
-          store.destroy(sessionId, function (err) {
-            assert.ok(!err, '#destroy() got an error')
-            done()
+            store.destroy(sessionId, function (err) {
+              assert.ok(!err, '#destroy() got an error')
+              done()
+            })
           })
+      })
+        .catch(function (err) {
+          assert.ifError(err)
         })
-      })
-      .catch(function (err) {
-        assert.ifError(err)
-      })
     })
   })
 
   it('should update fields when extendDefaultFields is set', function (done) {
-    store.set('testupdateFields', {foo: 'bar'}, function (err, session) {
+    store.set('testupdateFields', { foo: 'bar' }, function (err, session) {
       assert.ok(!err, '#set() got an error')
       assert.ok(session, '#set() is not ok')
 
-      store.set('testupdateFields', {baz: 'baz', yolo: 'haha'}, function (err, innerSession) {
+      store.set('testupdateFields', { baz: 'baz', yolo: 'haha' }, function (err, innerSession) {
         assert.ok(!err, '#set() got an error')
         assert.ok(innerSession, '#set() is not ok')
 
@@ -167,15 +167,15 @@ describe('extendDefaultFields', function () {
             userId: 'baz'
           }
         })
-        .then(function (_session) {
-          assert.ok(_session, 'session userId not saved')
-          assert.deepEqual(innerSession.dataValues, _session.dataValues)
+          .then(function (_session) {
+            assert.ok(_session, 'session userId not saved')
+            assert.deepStrictEqual(innerSession.dataValues, _session.dataValues)
 
-          store.destroy(sessionId, function (err) {
-            assert.ok(!err, '#destroy() got an error')
-            done()
+            store.destroy(sessionId, function (err) {
+              assert.ok(!err, '#destroy() got an error')
+              done()
+            })
           })
-        })
       })
     })
   })
@@ -194,7 +194,7 @@ describe('#touch()', function () {
       store.touch(sessionId, sessionData, function (err) {
         assert.ok(!err, '#touch() got an error')
 
-        store.sessionModel.findOne({where: {'sid': sessionId}}).then(function (session) {
+        store.sessionModel.findOne({ where: { 'sid': sessionId } }).then(function (session) {
           assert.ok(session.expires.getTime() !== firstExpires.getTime(), '.expires has not changed')
           assert.ok(session.expires > firstExpires, '.expires is not newer')
 
@@ -228,7 +228,7 @@ describe('#disableTouch()', function () {
       store.touch(sessionId, sessionData, function (err) {
         assert.ok(!err, '#touch() got an error')
 
-        store.sessionModel.findOne({where: {'sid': sessionId}}).then(function (session) {
+        store.sessionModel.findOne({ where: { 'sid': sessionId } }).then(function (session) {
           assert.ok(session.expires.getTime() === firstExpires.getTime(), '.expires was incorrectly changed')
 
           store.destroy(sessionId, function (err) {
@@ -260,7 +260,7 @@ describe('#clearExpiredSessions()', function () {
 
           store.length(function (err, c) {
             assert.ok(!err, '#length() got an error')
-            assert.equal(0, c, 'the expired session wasn\'t deleted')
+            assert.strictEqual(0, c, 'the expired session wasn\'t deleted')
             done()
           })
         })
@@ -279,7 +279,7 @@ describe('#stopExpiringSessions()', function () {
       'session_test',
       'test',
       '12345',
-      {operatorsAliases: false, dialect: 'sqlite', logging: false}
+      { operatorsAliases: false, dialect: 'sqlite', logging: false }
     )
     db.import(path.join(__dirname, 'resources/model'))
     store = new SequelizeStore({
@@ -294,6 +294,6 @@ describe('#stopExpiringSessions()', function () {
   it('should cancel the session check timer', function () {
     assert.ok(store._expirationInterval, 'missing timeout object')
     store.stopExpiringSessions()
-    assert.equal(store._expirationInterval, null, 'expiration interval not nullified')
+    assert.strictEqual(store._expirationInterval, null, 'expiration interval not nullified')
   })
 })
