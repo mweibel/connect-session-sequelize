@@ -40,7 +40,6 @@ With express 4:
 // load dependencies
 var express = require('express')
 var Sequelize = require('sequelize')
-var cookieParser = require('cookie-parser')
 var session = require('express-session');
 
 // initalize sequelize with session store
@@ -57,7 +56,6 @@ var sequelize = new Sequelize(
 
 // configure express
 var app = express()
-app.use(cookieParser())
 app.use(session({
   secret: 'keyboard cat',
   store: new SequelizeStore({
