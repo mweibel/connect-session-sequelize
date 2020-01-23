@@ -14,6 +14,9 @@ $ npm install connect-session-sequelize
 
 * `db` a successfully connected Sequelize instance
 * `table` *(optional)* a table/model which has already been imported to your Sequelize instance, this can be used if you want to use a specific table in your db
+* `defaultModelKey` *(optional)* a string for the key in sequelize's models-object but it is also the name of the class to which it references (conventionally written in Camelcase) that's why it is "Session" by default
+* `defaultTableName` *(optional)* a string for naming the generated table if `table` is not defined.
+Default is the value of `defaultModelKey`.
 * `extendDefaultFields` *(optional)* a way add custom data to table columns. Useful if using a custom model definition
 * `disableTouch` *(optional)* When true, the store will not update the db when receiving a touch() call. This can be useful in limiting db writes and introducing more manual control of session updates.
 
