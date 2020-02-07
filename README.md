@@ -26,13 +26,13 @@ Default is the value of `defaultModelKey`.
 With connect
 
 ```javascript
-var connect = require('connect')
-	// for express, just call it with 'require('connect-session-sequelize')(session.Store)'
-	, SequelizeStore = require('connect-session-sequelize')(connect.session.Store);
+const connect = require('connect');
+// for express, just call it with 'require('connect-session-sequelize')(session.Store)'
+const SequelizeStore = require('connect-session-sequelize')(connect.session.Store);
 
 connect().use(connect.session({
-	store: new SequelizeStore(options)
-	, secret: 'CHANGEME'
+	store: new SequelizeStore(options),
+	secret: 'CHANGEME'
 }));
 ```
 
