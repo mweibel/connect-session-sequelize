@@ -1,6 +1,6 @@
 {
   "name": "connect-session-sequelize",
-  "version": "6.1.0",
+  "version": "6.1.1",
   "description": "Session store for connect-session using sequelize",
   "homepage": "https://github.com/mweibel/connect-session-sequelize",
   "bugs": "https://github.com/mweibel/connect-session-sequelize/issues",
