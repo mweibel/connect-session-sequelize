@@ -15,7 +15,8 @@
   },
   "dependencies": {
     "debug": "^3.1.0",
-    "deep-equal": "^1.0.1"
+    "deep-equal": "^1.0.1",
+    "kruptein": "^2.0.5"
   },
   "devDependencies": {
     "express-session": "^1.10.3",

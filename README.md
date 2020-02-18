@@ -19,6 +19,7 @@ $ npm install connect-session-sequelize
 Default is the value of `modelKey`.
 * `extendDefaultFields` *(optional)* a way add custom data to table columns. Useful if using a custom model definition
 * `disableTouch` *(optional)* When true, the store will not update the db when receiving a touch() call. This can be useful in limiting db writes and introducing more manual control of session updates.
+* `secret` *(optional)* When true, the session is encrypted according to [OWASP sessions management](https://owasp.org/www-project-cheat-sheets/cheatsheets/Session_Management_Cheat_Sheet.html) recommendations.
 
 
 # Usage
@@ -141,6 +142,17 @@ var store = new SessionStore({
   db: sequelize,
   table: 'Session',
   extendDefaultFields: extendDefaultFields
+});
+```
+
+# Protect the session data
+
+To protect the session information, pass a `secret` option.
+
+```javascript
+var store = new SessionStore({
+  db: sequelize,
+  secret: 'squirrel'
 });
 ```
 
