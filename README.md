@@ -1,10 +1,12 @@
 # Connect Session Store using Sequelize
+
 [![Build Status](https://travis-ci.org/mweibel/connect-session-sequelize.png)](https://travis-ci.org/mweibel/connect-session-sequelize)
 
 connect-session-sequelize is a SQL session store using [Sequelize.js](http://sequelizejs.com).
 
 # Installation
-Please note that the most recent version requires **express 4.** If you use *express 3* you should install version 0.0.5 and follow [the instructions in the previous README](https://github.com/mweibel/connect-session-sequelize/blob/7a446de5a7a2ebc562d288a22896d55f0fbe6e5d/README.md).
+
+Please note that the most recent version requires **express 4.** If you use _express 3_ you should install version 0.0.5 and follow [the instructions in the previous README](https://github.com/mweibel/connect-session-sequelize/blob/7a446de5a7a2ebc562d288a22896d55f0fbe6e5d/README.md).
 
 ```
 $ npm install connect-session-sequelize
@@ -12,61 +14,62 @@ $ npm install connect-session-sequelize
 
 # Options
 
-* `db` a successfully connected Sequelize instance
-* `table` *(optional)* a table/model which has already been imported to your Sequelize instance, this can be used if you want to use a specific table in your db
-* `modelKey` *(optional)* a string for the key in sequelize's models-object but it is also the name of the class to which it references (conventionally written in Camelcase) that's why it is "Session" by default if `table` is not defined.
-* `tableName` *(optional)* a string for naming the generated table if `table` is not defined.
-Default is the value of `modelKey`.
-* `extendDefaultFields` *(optional)* a way add custom data to table columns. Useful if using a custom model definition
-* `disableTouch` *(optional)* When true, the store will not update the db when receiving a touch() call. This can be useful in limiting db writes and introducing more manual control of session updates.
-
+- `db` a successfully connected Sequelize instance
+- `table` _(optional)_ a table/model which has already been imported to your Sequelize instance, this can be used if you want to use a specific table in your db
+- `modelKey` _(optional)_ a string for the key in sequelize's models-object but it is also the name of the class to which it references (conventionally written in Camelcase) that's why it is "Session" by default if `table` is not defined.
+- `tableName` _(optional)_ a string for naming the generated table if `table` is not defined.
+  Default is the value of `modelKey`.
+- `extendDefaultFields` _(optional)_ a way add custom data to table columns. Useful if using a custom model definition
+- `disableTouch` _(optional)_ When true, the store will not update the db when receiving a touch() call. This can be useful in limiting db writes and introducing more manual control of session updates.
 
 # Usage
 
 With connect
 
 ```javascript
-const connect = require('connect');
+const connect = require("connect");
 // for express, just call it with 'require('connect-session-sequelize')(session.Store)'
-const SequelizeStore = require('connect-session-sequelize')(connect.session.Store);
+const SequelizeStore = require("connect-session-sequelize")(
+  connect.session.Store
+);
 
-connect().use(connect.session({
-	store: new SequelizeStore(options),
-	secret: 'CHANGEME'
-}));
+connect().use(
+  connect.session({
+    store: new SequelizeStore(options),
+    secret: "CHANGEME",
+  })
+);
 ```
 
 With express 4:
 
 ```javascript
-
 // load dependencies
-var express = require('express')
-var Sequelize = require('sequelize')
-var session = require('express-session');
+var express = require("express");
+var Sequelize = require("sequelize");
+var session = require("express-session");
 
 // initalize sequelize with session store
-var SequelizeStore = require('connect-session-sequelize')(session.Store);
+var SequelizeStore = require("connect-session-sequelize")(session.Store);
 
 // create database, ensure 'sqlite3' in your package.json
-var sequelize = new Sequelize(
-"database",
-"username",
-"password", {
-    "dialect": "sqlite",
-    "storage": "./session.sqlite"
+var sequelize = new Sequelize("database", "username", "password", {
+  dialect: "sqlite",
+  storage: "./session.sqlite",
 });
 
 // configure express
-var app = express()
-app.use(session({
-  secret: 'keyboard cat',
-  store: new SequelizeStore({
-    db: sequelize
-  }),
-  resave: false, // we support the touch method so per the express-session docs this should be set to false
-  proxy: true // if you do SSL outside of node.
-}))
+var app = express();
+app.use(
+  session({
+    secret: "keyboard cat",
+    store: new SequelizeStore({
+      db: sequelize,
+    }),
+    resave: false, // we support the touch method so per the express-session docs this should be set to false
+    proxy: true, // if you do SSL outside of node.
+  })
+);
 // continue as normal
 ```
 
@@ -74,14 +77,16 @@ If you want SequelizeStore to create/sync the database table for you, you can ca
 
 ```javascript
 var myStore = new SequelizeStore({
-    db: sequelize
-})
-app.use(session({
-    secret: 'keyboard cat',
+  db: sequelize,
+});
+app.use(
+  session({
+    secret: "keyboard cat",
     store: myStore,
     resave: false,
-    proxy: true
-}))
+    proxy: true,
+  })
+);
 
 myStore.sync();
 ```
@@ -105,11 +110,11 @@ As expirations are checked on an interval timer, `connect-session-sequelize` can
 ```js
 // assuming you have set up a typical session store, for example:
 var myStore = new SequelizeStore({
-  db: sequelize
+  db: sequelize,
 });
 
 // you can stop expiring sessions (cancel the interval). Example using Mocha:
-after('clean up resources', () => {
+after("clean up resources", () => {
   myStore.stopExpiringSessions();
 });
 ```
@@ -119,30 +124,36 @@ after('clean up resources', () => {
 The `extendDefaultFields` can be used to add custom fields to the session table. These fields will be read-only as they will be inserted only when the session is first created as `defaults`. Make sure to return an object which contains unmodified `data` and `expires` properties, or else the module functionality will be broken:
 
 ```javascript
-var Session = sequelize.define('Session', {
+var Session = sequelize.define("Session", {
   sid: {
     type: Sequelize.STRING,
-    primaryKey: true
+    primaryKey: true,
   },
   userId: Sequelize.STRING,
   expires: Sequelize.DATE,
-  data: Sequelize.STRING(50000)
+  data: Sequelize.STRING(50000),
 });
 
 function extendDefaultFields(defaults, session) {
   return {
     data: defaults.data,
     expires: defaults.expires,
-    userId: session.userId
+    userId: session.userId,
   };
 }
 
 var store = new SessionStore({
   db: sequelize,
-  table: 'Session',
-  extendDefaultFields: extendDefaultFields
+  table: "Session",
+  extendDefaultFields: extendDefaultFields,
 });
 ```
+
+# Contributing/Reporting Bugs
+
+Try to replicate your issue using [mweibel/connect-session-sequelize-example](https://github.com/mweibel/connect-session-sequelize-example/) and add that as a link to your issue.
+
+This way it's much simpler to reproduce and help you.
 
 # License
 
