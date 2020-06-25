@@ -1,13 +1,17 @@
 /* global describe,before,beforeEach,after,afterEach,it */
 
+var Promise = require('bluebird')
 var assert = require('assert')
 var session = require('express-session')
 var path = require('path')
 var SequelizeStore = require('../lib/connect-session-sequelize')(session.Store)
 var Sequelize = require('sequelize')
 
+Promise.config({
+  longStackTraces: true
+})
+
 var db = new Sequelize('session_test', 'test', '12345', {
-  operatorsAliases: false,
   dialect: 'sqlite',
   logging: false
 })
@@ -38,7 +42,7 @@ describe('store', function () {
 describe('store db', function () {
   var db = {}
   beforeEach(function () {
-    db = new Sequelize('session_test', 'test', '12345', { operatorsAliases: false, dialect: 'sqlite', logging: false })
+    db = new Sequelize('session_test', 'test', '12345', { dialect: 'sqlite', logging: false })
     require(path.join(__dirname, 'resources/model'))(db, Sequelize.DataTypes)
   })
 
@@ -119,7 +123,7 @@ describe('extendDefaultFields', function () {
       return defaults
     }
 
-    db = new Sequelize('session_test', 'test', '12345', { operatorsAliases: false, dialect: 'sqlite', logging: console.log })
+    db = new Sequelize('session_test', 'test', '12345', { dialect: 'sqlite', logging: console.log })
     require(path.join(__dirname, 'resources/model'))(db, Sequelize.DataTypes)
     store = new SequelizeStore({ db: db, table: 'TestSession', extendDefaultFields: extend, checkExpirationInterval: -1 })
     return store.sync()
@@ -277,7 +281,7 @@ describe('#stopExpiringSessions()', function () {
       'session_test',
       'test',
       '12345',
-      { operatorsAliases: false, dialect: 'sqlite', logging: false }
+      { dialect: 'sqlite', logging: false }
     )
     require(path.join(__dirname, 'resources/model'))(db, Sequelize.DataTypes)
     store = new SequelizeStore({
