@@ -1,15 +1,17 @@
 /* global describe,before,beforeEach,after,afterEach,it */
 
+var Promise = require('bluebird')
 var assert = require('assert')
 var session = require('express-session')
 var path = require('path')
 var SequelizeStore = require('../lib/connect-session-sequelize')(session.Store)
 var Sequelize = require('sequelize')
 
-Sequelize.Promise.longStackTraces()
+Promise.config({
+  longStackTraces: true
+})
 
 var db = new Sequelize('session_test', 'test', '12345', {
-  operatorsAliases: false,
   dialect: 'sqlite',
   logging: false
 })
@@ -39,9 +41,10 @@ describe('store', function () {
 
 describe('store db', function () {
   var db = {}
+
   beforeEach(function () {
-    db = new Sequelize('session_test', 'test', '12345', { operatorsAliases: false, dialect: 'sqlite', logging: false })
-    db.import(path.join(__dirname, 'resources/model'))
+    db = new Sequelize('session_test', 'test', '12345', { dialect: 'sqlite', logging: false })
+    db.models['TestSession'] = require(path.join(__dirname, 'resources/model'))(db)
   })
 
   it('should take a specific table from Sequelize DB', function () {
@@ -121,8 +124,8 @@ describe('extendDefaultFields', function () {
       return defaults
     }
 
-    db = new Sequelize('session_test', 'test', '12345', { operatorsAliases: false, dialect: 'sqlite', logging: console.log })
-    db.import(path.join(__dirname, 'resources/model'))
+    db = new Sequelize('session_test', 'test', '12345', { dialect: 'sqlite', logging: console.log })
+    db.models['TestSession'] = require(path.join(__dirname, 'resources/model'))(db)
     store = new SequelizeStore({ db: db, table: 'TestSession', extendDefaultFields: extend, checkExpirationInterval: -1 })
     return store.sync()
   })
@@ -279,9 +282,9 @@ describe('#stopExpiringSessions()', function () {
       'session_test',
       'test',
       '12345',
-      { operatorsAliases: false, dialect: 'sqlite', logging: false }
+      { dialect: 'sqlite', logging: false }
     )
-    db.import(path.join(__dirname, 'resources/model'))
+    db.models['TestSession'] = require(path.join(__dirname, 'resources/model'))(db)
     store = new SequelizeStore({
       db: db,
       table: 'TestSession',
