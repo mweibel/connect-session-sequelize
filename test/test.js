@@ -16,7 +16,7 @@ var store = new SequelizeStore({
   checkExpirationInterval: 100
 })
 var sessionId = '1234a'
-var sessionData = { foo: 'bar', 'baz': '42' }
+var sessionData = { foo: 'bar', baz: '42' }
 
 after('clean up resources, allowing tests to terminate', function () {
   store.stopExpiringSessions()
@@ -191,7 +191,7 @@ describe('#touch()', function () {
       store.touch(sessionId, sessionData, function (err) {
         assert.ok(!err, '#touch() got an error')
 
-        store.sessionModel.findOne({ where: { 'sid': sessionId } }).then(function (session) {
+        store.sessionModel.findOne({ where: { sid: sessionId } }).then(function (session) {
           assert.ok(session.expires.getTime() !== firstExpires.getTime(), '.expires has not changed')
           assert.ok(session.expires > firstExpires, '.expires is not newer')
 
@@ -225,7 +225,7 @@ describe('#disableTouch()', function () {
       store.touch(sessionId, sessionData, function (err) {
         assert.ok(!err, '#touch() got an error')
 
-        store.sessionModel.findOne({ where: { 'sid': sessionId } }).then(function (session) {
+        store.sessionModel.findOne({ where: { sid: sessionId } }).then(function (session) {
           assert.ok(session.expires.getTime() === firstExpires.getTime(), '.expires was incorrectly changed')
 
           store.destroy(sessionId, function (err) {
