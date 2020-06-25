@@ -1,15 +1,10 @@
 /* global describe,before,beforeEach,after,afterEach,it */
 
-var Promise = require('bluebird')
 var assert = require('assert')
 var session = require('express-session')
 var path = require('path')
 var SequelizeStore = require('../lib/connect-session-sequelize')(session.Store)
 var Sequelize = require('sequelize')
-
-Promise.config({
-  longStackTraces: true
-})
 
 var db = new Sequelize('session_test', 'test', '12345', {
   dialect: 'sqlite',
