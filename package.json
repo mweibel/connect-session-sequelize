@@ -14,7 +14,6 @@
     "url": "https://github.com/mweibel/connect-session-sequelize.git"
   },
   "dependencies": {
-    "bluebird": "^3.7.2",
     "debug": "^3.1.0",
     "deep-equal": "^1.0.1"
   },
