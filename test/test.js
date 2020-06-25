@@ -6,8 +6,6 @@ var path = require('path')
 var SequelizeStore = require('../lib/connect-session-sequelize')(session.Store)
 var Sequelize = require('sequelize')
 
-Sequelize.Promise.longStackTraces()
-
 var db = new Sequelize('session_test', 'test', '12345', {
   operatorsAliases: false,
   dialect: 'sqlite',
@@ -41,7 +39,7 @@ describe('store db', function () {
   var db = {}
   beforeEach(function () {
     db = new Sequelize('session_test', 'test', '12345', { operatorsAliases: false, dialect: 'sqlite', logging: false })
-    db.import(path.join(__dirname, 'resources/model'))
+    require(path.join(__dirname, 'resources/model'))(db, Sequelize.DataTypes)
   })
 
   it('should take a specific table from Sequelize DB', function () {
@@ -122,7 +120,7 @@ describe('extendDefaultFields', function () {
     }
 
     db = new Sequelize('session_test', 'test', '12345', { operatorsAliases: false, dialect: 'sqlite', logging: console.log })
-    db.import(path.join(__dirname, 'resources/model'))
+    require(path.join(__dirname, 'resources/model'))(db, Sequelize.DataTypes)
     store = new SequelizeStore({ db: db, table: 'TestSession', extendDefaultFields: extend, checkExpirationInterval: -1 })
     return store.sync()
   })
@@ -281,7 +279,7 @@ describe('#stopExpiringSessions()', function () {
       '12345',
       { operatorsAliases: false, dialect: 'sqlite', logging: false }
     )
-    db.import(path.join(__dirname, 'resources/model'))
+    require(path.join(__dirname, 'resources/model'))(db, Sequelize.DataTypes)
     store = new SequelizeStore({
       db: db,
       table: 'TestSession',
