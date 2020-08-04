@@ -124,14 +124,14 @@ after("clean up resources", () => {
 The `extendDefaultFields` can be used to add custom fields to the session table. These fields will be read-only as they will be inserted only when the session is first created as `defaults`. Make sure to return an object which contains unmodified `data` and `expires` properties, or else the module functionality will be broken:
 
 ```javascript
-var Session = sequelize.define("Session", {
+sequelize.define("Session", {
   sid: {
     type: Sequelize.STRING,
     primaryKey: true,
   },
   userId: Sequelize.STRING,
   expires: Sequelize.DATE,
-  data: Sequelize.STRING(50000),
+  data: Sequelize.TEXT,
 });
 
 function extendDefaultFields(defaults, session) {
@@ -142,7 +142,7 @@ function extendDefaultFields(defaults, session) {
   };
 }
 
-var store = new SessionStore({
+var store = new SequelizeStore({
   db: sequelize,
   table: "Session",
   extendDefaultFields: extendDefaultFields,
