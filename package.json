@@ -1,6 +1,6 @@
 {
   "name": "connect-session-sequelize",
-  "version": "7.0.2",
+  "version": "7.0.3",
   "description": "Session store for connect-session using sequelize",
   "homepage": "https://github.com/mweibel/connect-session-sequelize",
   "bugs": "https://github.com/mweibel/connect-session-sequelize/issues",
@@ -41,6 +41,8 @@
   "author": "Michael Weibel <michael.weibel@gmail.com> (https://github.com/mweibel)",
   "license": "MIT",
   "files": [
-    "lib"
+    "lib",
+    "index.js",
+    "index.d.ts"
   ]
 }
