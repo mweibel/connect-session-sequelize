@@ -14,7 +14,7 @@ declare module 'connect-session-sequelize' {
 
   interface SequelizeStoreOptions {
     db: Sequelize;
-    table?: Model<any, any>;
+    table?: string;
     extendDefaultFields?: (defaults: DefaultFields, session: any) => Data;
     checkExpirationInterval?: number;
     expiration?: number;
