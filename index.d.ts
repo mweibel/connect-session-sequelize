@@ -13,6 +13,7 @@ interface Data {
 interface SequelizeStoreOptions {
   db: Sequelize;
   table?: string;
+  tableName?: string;
   extendDefaultFields?: (defaults: DefaultFields, session: any) => Data;
   checkExpirationInterval?: number;
   expiration?: number;
