@@ -17,11 +17,12 @@ interface SequelizeStoreOptions {
   extendDefaultFields?: (defaults: DefaultFields, session: any) => Data;
   checkExpirationInterval?: number;
   expiration?: number;
+  isDataFieldText?: boolean;
 }
 
 declare class SequelizeStore extends Store {
   sync(): void
-  touch: (sid: string, data: any, callback?: (err: any) => void) => void
+  touch: (sid: string, data: any, callback?: (err: any) => void) => void;
   stopExpiringSessions: () => void
 }
 
