@@ -72,8 +72,7 @@ app.use(
 );
 // continue as normal
 ```
-
-If you want SequelizeStore to create/sync the database table for you, you can call `sync()` against an instance of `SequelizeStore` - this will run a sequelize `sync()` operation on the model for an initialized SequelizeStore object:
+If you want SequelizeStore to create/sync the database table for you, you can call `sync()` against an instance of `SequelizeStore` along with [options](https://sequelize.org/master/class/lib/model.js~Model.html#static-method-sync) if needed. This will run a sequelize `sync()` operation on the model for an initialized SequelizeStore object :
 
 ```javascript
 var myStore = new SequelizeStore({
