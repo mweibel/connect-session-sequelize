@@ -1,5 +1,5 @@
 import { Store } from 'express-session';
-import { Sequelize, Model } from 'sequelize';
+import { Sequelize, SyncOptions } from 'sequelize';
 
 interface DefaultFields {
   data: string;
@@ -20,7 +20,7 @@ interface SequelizeStoreOptions {
 }
 
 declare class SequelizeStore extends Store {
-  sync(): void
+  sync(options?: SyncOptions): void
   touch: (sid: string, data: any, callback?: (err: any) => void) => void
   stopExpiringSessions: () => void
 }
