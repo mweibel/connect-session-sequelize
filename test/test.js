@@ -51,6 +51,32 @@ describe('store db', function () {
     var store = new SequelizeStore({ db: db, checkExpirationInterval: -1 })
     assert.strictEqual(store.sessionModel.name, 'Session')
   })
+
+  it('should use the default model key if not specified in options', function () {
+    var store = new SequelizeStore({ db: db, checkExpirationInterval: -1 })
+    assert.strictEqual(store.sessionModel.name, 'Session')
+  })
+
+  it('should use an explicit model key', function () {
+    var store = new SequelizeStore({ db: db, modelKey: 'CustomSessionModel', checkExpirationInterval: -1 })
+    assert.strictEqual(store.sessionModel.name, 'CustomSessionModel')
+  })
+
+  it('should use the default table name if not specified in options', function () {
+    var store = new SequelizeStore({ db: db, checkExpirationInterval: -1 })
+    assert.strictEqual(store.sessionModel.tableName, 'Sessions')
+  })
+
+  it('should use an explicit table name', function () {
+    var store = new SequelizeStore({ db: db, tableName: 'CustomSessionsTable', checkExpirationInterval: -1 })
+    assert.strictEqual(store.sessionModel.tableName, 'CustomSessionsTable')
+  })
+
+  it('should use explicit model/table options', function () {
+    var store = new SequelizeStore({ db: db, modelKey: 'CustomSessionModel', tableName: 'CustomSessionsTable', checkExpirationInterval: -1 })
+    assert.strictEqual(store.sessionModel.name, 'CustomSessionModel')
+    assert.strictEqual(store.sessionModel.tableName, 'CustomSessionsTable')
+  })
 })
 
 describe('#set()', function () {
