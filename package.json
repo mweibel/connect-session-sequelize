@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "express-session": "^1.17.1",
-    "mocha": "^8.0.1",
+    "mocha": "^9.2.2",
     "sequelize": ">=6.1.0",
     "sqlite3": "^4.2.0",
     "standard": "^14.3.4"
