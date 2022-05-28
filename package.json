@@ -14,8 +14,7 @@
     "url": "https://github.com/mweibel/connect-session-sequelize.git"
   },
   "dependencies": {
-    "debug": "^4.1.1",
-    "deep-equal": "^2.0.3"
+    "debug": "^4.1.1"
   },
   "devDependencies": {
     "express-session": "^1.17.1",
