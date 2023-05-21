@@ -14,6 +14,7 @@ interface SequelizeStoreOptions {
   db: Sequelize;
   table?: string;
   tableName?: string;
+  modelKey?: string;
   extendDefaultFields?: (defaults: DefaultFields, session: any) => Data;
   checkExpirationInterval?: number;
   expiration?: number;
