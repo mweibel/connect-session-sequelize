@@ -21,7 +21,7 @@ interface SequelizeStoreOptions {
 }
 
 declare class SequelizeStore extends Store {
-  sync(options?: SyncOptions): void
+  sync(options?: SyncOptions): Promise<unknown>
   touch: (sid: string, data: any, callback?: (err: any) => void) => void
   stopExpiringSessions: () => void
   get(sid: string, callback: (err: any, session?: SessionData | null) => void): void
