@@ -214,22 +214,26 @@ describe('#touch()', function () {
       assert.ok(session, '#set() is not ok')
 
       var firstExpires = session.expires
-      store.touch(sessionId, sessionData, function (err) {
-        assert.ok(!err, '#touch() got an error')
-
-        store.sessionModel.findOne({ where: { sid: sessionId } }).then(function (session) {
-          assert.ok(session.expires.getTime() !== firstExpires.getTime(), '.expires has not changed')
-          assert.ok(session.expires > firstExpires, '.expires is not newer')
-
-          store.destroy(sessionId, function (err) {
-            assert.ok(!err, '#destroy() got an error')
-            done()
+      // Not reliable, wait 1 second
+      setTimeout(function () {
+        store.touch(sessionId, sessionData, function (err) {
+          assert.ok(!err, '#touch() got an error')
+          store.sessionModel.findOne({ where: { sid: sessionId } }).then(function (session) {
+            assert.ok(session.expires.getTime() !== firstExpires.getTime(), '.expires has not changed')
+            assert.ok(session.expires > firstExpires, '.expires is not newer')
+            store.destroy(sessionId, function (err) {
+              assert.ok(!err, '#destroy() got an error')
+              done()
+            })
+          }).catch(function (err) {
+            assert.ok(!err, 'store.sessionModel.findOne() got an error')
+            done(err)
           })
-        }, function (err) {
-          assert.ok(!err, 'store.sessionModel.findOne() got an error')
+        }).catch(function (err) {
+          assert.ok(!err, 'store.touch() got an error')
           done(err)
         })
-      })
+      }, 1000)
     })
   })
 })
