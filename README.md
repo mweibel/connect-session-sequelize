@@ -1,6 +1,6 @@
 # Connect Session Store using Sequelize
 
-[![Build Status](https://travis-ci.org/mweibel/connect-session-sequelize.png)](https://travis-ci.org/mweibel/connect-session-sequelize)
+[![Node.js CI](https://github.com/mweibel/connect-session-sequelize/actions/workflows/node.js.yml/badge.svg)](https://github.com/mweibel/connect-session-sequelize/actions/workflows/node.js.yml)
 
 connect-session-sequelize is a SQL session store using [Sequelize.js](http://sequelizejs.com).
 
