@@ -7,6 +7,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha ./test",
+    "coverage": "nyc --reporter=text --reporter=html mocha ./test",
     "lint": "standard"
   },
   "repository": {
@@ -14,20 +15,21 @@
     "url": "https://github.com/mweibel/connect-session-sequelize.git"
   },
   "dependencies": {
-    "debug": "^4.1.1"
+    "debug": "^4.4.1"
   },
   "devDependencies": {
-    "express-session": "^1.17.1",
+    "express-session": "^1.18.1",
     "mocha": "^9.2.2",
-    "sequelize": ">=6.1.0",
+    "nyc": "^17.1.0",
+    "sequelize": "^6.37.7",
     "sqlite3": "^4.2.0",
     "standard": "^14.3.4"
   },
   "peerDependencies": {
-    "sequelize": ">= 6.1.0"
+    "sequelize": ">= 6.37.7"
   },
   "engines": {
-    "node": ">= 10"
+    "node": ">= 22"
   },
   "keywords": [
     "connect-session",
