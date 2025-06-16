@@ -1,22 +1,22 @@
 /* global describe,before,beforeEach,after,afterEach,it */
 
-var assert = require('assert')
-var session = require('express-session')
-var path = require('path')
-var SequelizeStore = require('../lib/connect-session-sequelize')(session.Store)
-var Sequelize = require('sequelize')
+const assert = require('assert')
+const session = require('express-session')
+const path = require('path')
+const SequelizeStore = require('../lib/connect-session-sequelize')(session.Store)
+const Sequelize = require('sequelize')
 
-var db = new Sequelize('session_test', 'test', '12345', {
+const db = new Sequelize('session_test', 'test', '12345', {
   dialect: 'sqlite',
   logging: false
 })
-var store = new SequelizeStore({
-  db: db,
+const store = new SequelizeStore({
+  db,
   // the expiration check interval is removed up in an `after` block
   checkExpirationInterval: 100
 })
-var sessionId = '1234a'
-var sessionData = { foo: 'bar', baz: '42' }
+const sessionId = '1234a'
+const sessionData = { foo: 'bar', baz: '42' }
 
 after('clean up resources, allowing tests to terminate', function () {
   store.stopExpiringSessions()
@@ -35,7 +35,7 @@ describe('store', function () {
 })
 
 describe('store db', function () {
-  var db = {}
+  let db = {}
   beforeEach(function () {
     db = new Sequelize('session_test', 'test', '12345', { dialect: 'sqlite', logging: false })
     require(path.join(__dirname, 'resources/model'))(db, Sequelize.DataTypes)
@@ -43,37 +43,37 @@ describe('store db', function () {
 
   it('should take a specific table from Sequelize DB', function () {
     assert.ok(db.models.TestSession, 'Session model added to Sequelize Object')
-    var store = new SequelizeStore({ db: db, table: 'TestSession', checkExpirationInterval: -1 })
+    const store = new SequelizeStore({ db, table: 'TestSession', checkExpirationInterval: -1 })
     assert.strictEqual(store.sessionModel.name, 'TestSession')
   })
 
   it('should load the default model if No Table is specified in options', function () {
-    var store = new SequelizeStore({ db: db, checkExpirationInterval: -1 })
+    const store = new SequelizeStore({ db, checkExpirationInterval: -1 })
     assert.strictEqual(store.sessionModel.name, 'Session')
   })
 
   it('should use the default model key if not specified in options', function () {
-    var store = new SequelizeStore({ db: db, checkExpirationInterval: -1 })
+    const store = new SequelizeStore({ db, checkExpirationInterval: -1 })
     assert.strictEqual(store.sessionModel.name, 'Session')
   })
 
   it('should use an explicit model key', function () {
-    var store = new SequelizeStore({ db: db, modelKey: 'CustomSessionModel', checkExpirationInterval: -1 })
+    const store = new SequelizeStore({ db, modelKey: 'CustomSessionModel', checkExpirationInterval: -1 })
     assert.strictEqual(store.sessionModel.name, 'CustomSessionModel')
   })
 
   it('should use the default table name if not specified in options', function () {
-    var store = new SequelizeStore({ db: db, checkExpirationInterval: -1 })
+    const store = new SequelizeStore({ db, checkExpirationInterval: -1 })
     assert.strictEqual(store.sessionModel.tableName, 'Sessions')
   })
 
   it('should use an explicit table name', function () {
-    var store = new SequelizeStore({ db: db, tableName: 'CustomSessionsTable', checkExpirationInterval: -1 })
+    const store = new SequelizeStore({ db, tableName: 'CustomSessionsTable', checkExpirationInterval: -1 })
     assert.strictEqual(store.sessionModel.tableName, 'CustomSessionsTable')
   })
 
   it('should use explicit model/table options', function () {
-    var store = new SequelizeStore({ db: db, modelKey: 'CustomSessionModel', tableName: 'CustomSessionsTable', checkExpirationInterval: -1 })
+    const store = new SequelizeStore({ db, modelKey: 'CustomSessionModel', tableName: 'CustomSessionsTable', checkExpirationInterval: -1 })
     assert.strictEqual(store.sessionModel.name, 'CustomSessionModel')
     assert.strictEqual(store.sessionModel.tableName, 'CustomSessionsTable')
   })
@@ -137,7 +137,7 @@ describe('#set()', function () {
 })
 
 describe('extendDefaultFields', function () {
-  var db, store
+  let db, store
   before(function () {
     function extend (defaults, session) {
       defaults.userId = session.baz
@@ -146,7 +146,7 @@ describe('extendDefaultFields', function () {
 
     db = new Sequelize('session_test', 'test', '12345', { dialect: 'sqlite', logging: console.log })
     require(path.join(__dirname, 'resources/model'))(db, Sequelize.DataTypes)
-    store = new SequelizeStore({ db: db, table: 'TestSession', extendDefaultFields: extend, checkExpirationInterval: -1 })
+    store = new SequelizeStore({ db, table: 'TestSession', extendDefaultFields: extend, checkExpirationInterval: -1 })
     return store.sync()
   })
   it('should extend defaults when extendDefaultFields is set', function (done) {
@@ -213,7 +213,7 @@ describe('#touch()', function () {
       assert.ok(!err, '#set() got an error')
       assert.ok(session, '#set() is not ok')
 
-      var firstExpires = session.expires
+      const firstExpires = session.expires
       store.touch(sessionId, sessionData, function (err) {
         assert.ok(!err, '#touch() got an error')
 
@@ -247,7 +247,7 @@ describe('#disableTouch()', function () {
       assert.ok(!err, '#set() got an error')
       assert.ok(session, '#set() is not ok')
 
-      var firstExpires = session.expires
+      const firstExpires = session.expires
       store.touch(sessionId, sessionData, function (err) {
         assert.ok(!err, '#touch() got an error')
 
@@ -296,9 +296,9 @@ describe('#clearExpiredSessions()', function () {
 })
 
 describe('#stopExpiringSessions()', function () {
-  var store
+  let store
   beforeEach(function () {
-    var db = new Sequelize(
+    const db = new Sequelize(
       'session_test',
       'test',
       '12345',
@@ -306,7 +306,7 @@ describe('#stopExpiringSessions()', function () {
     )
     require(path.join(__dirname, 'resources/model'))(db, Sequelize.DataTypes)
     store = new SequelizeStore({
-      db: db,
+      db,
       table: 'TestSession',
       checkExpirationInterval: 100
     })
