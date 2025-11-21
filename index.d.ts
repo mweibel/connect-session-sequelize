@@ -18,6 +18,7 @@ interface SequelizeStoreOptions {
   extendDefaultFields?: (defaults: DefaultFields, session: any) => Data;
   checkExpirationInterval?: number;
   expiration?: number;
+  disableTouch?: boolean;
 }
 
 declare class SequelizeStore extends Store {
