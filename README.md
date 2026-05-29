@@ -2,7 +2,7 @@
 
 [![Node.js CI](https://github.com/mweibel/connect-session-sequelize/actions/workflows/node.js.yml/badge.svg)](https://github.com/mweibel/connect-session-sequelize/actions/workflows/node.js.yml)
 
-connect-session-sequelize is a SQL session store using [Sequelize.js](http://sequelizejs.com).
+connect-session-sequelize is a SQL session store using [Sequelize.js](https://sequelize.org/).
 
 # Installation
 
